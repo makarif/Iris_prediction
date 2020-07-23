@@ -18,19 +18,13 @@ def predict():
     final_features = [np.array(int_features)]
     prediction = model.predict(final_features)
 
+    if prediction==0:
+    	return render_template('index.html', prediction_text='Class should be Iris-setosa.')
+    elif prediction==1:
+    	return render_template('index.html', prediction_text='Class should be Iris-versicolour.')
+    elif prediction==2:
+    	return render_template('index.html', prediction_text='Class should be Iris-virginica.')
 
-    return render_template('index.html', prediction_text='Iris Class should be  {}'.format(prediction))
-
-@app.route('/predict_api',methods=['POST'])
-def predict_api():
-    '''
-    For direct API calls trought request
-    '''
-    data = request.get_json(force=True)
-    prediction = model.predict([np.array(list(data.values()))])
-
-    output = prediction[0]
-    return jsonify(output)
 
 if __name__ == "__main__":
     app.run(debug=True)
